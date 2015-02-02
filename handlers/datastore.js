@@ -2,7 +2,7 @@ var flatMap = require('flatmap');
 
 function ViewerDataStore() {
   this.dictionary = new Array();
-  //setInterval(this.cleanUp, 600000);
+  setInterval(this.cleanUp, 600000);
 }
 
 function Viewer(viewerId, time) {
@@ -12,15 +12,15 @@ function Viewer(viewerId, time) {
 
 ViewerDataStore.prototype.addViewer = function(articleId, viewerId) {
   var viewer = new Viewer(viewerId, new Date().getTime());
-  if (this.dictionary[articleId] === undefined) {
+  if (this.dictionary[JSON.stringify(articleId)] === undefined) {
   	console.log("Adding a new array");
   	var listOfViewers = new Array();
   	listOfViewers[JSON.stringify(viewerId)] = viewer;
-  	this.dictionary[articleId] = listOfViewers;
+  	this.dictionary[JSON.stringify(articleId)] = listOfViewers;
   	return 'Good';
   } else {
   	console.log("Adding a viewer to existing array");
-  	var listOfViewers = this.dictionary[articleId];
+  	var listOfViewers = this.dictionary[JSON.stringify(articleId)];
   	listOfViewers[JSON.stringify(viewerId)] = viewer;
   	return 'Good';
   }
@@ -28,7 +28,7 @@ ViewerDataStore.prototype.addViewer = function(articleId, viewerId) {
 
 ViewerDataStore.prototype.removeViewer = function(articleId, viewerId) {
 	var viewer = new Viewer(viewerId, new Date().getTime());
-	var listOfViewers = this.dictionary[articleId];
+	var listOfViewers = this.dictionary[JSON.stringify(articleId)];
   if (listOfViewers != undefined) {
   		console.log("Removing viewer from existing array");
   		var index = listOfViewers.indexOf(viewerId);
@@ -59,10 +59,10 @@ ViewerDataStore.prototype.getNumViewers = function(articleId) {
 	console.log(this.dictionary);
 	console.log(articleId);
 	console.log(JSON.stringify(articleId));
-	if (this.dictionary[articleId] === undefined) {
+	if (this.dictionary[JSON.stringify(articleId)] === undefined) {
 		return '0';
 	} else {
-		return JSON.stringify(this.dictionary[articleId].length);
+		return JSON.stringify(Object.keys(this.dictionary[JSON.stringify(articleId)]).length);
 	}
 }
 
