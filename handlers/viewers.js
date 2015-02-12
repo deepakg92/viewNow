@@ -4,11 +4,17 @@ var dataStore = new dataStoreModule();
 var getViewers = function(req, res) {
   if (req.query && req.query.articleId) {
 		var articleId = req.query.articleId;
-		var response = dataStore.getNumViewers(articleId);
+		var response = {
+			response: dataStore.getNumViewers(articleId)
+		}
 		console.log(response);
 	  res.send(response);
   } else {
-  	res.send('Nahi mila bhai');
+  	var response = {
+  		response: 0
+  	}
+  	console.log(response);
+  	res.send(response);
   }
 };
 
@@ -16,13 +22,20 @@ var getViewers = function(req, res) {
 var addViewer = function(req, res) {
 	var articleId = req.body.articleId;
 	var viewerId = req.body.viewerId;
-	res.send(dataStore.addViewer(articleId, viewerId));
+	var response = {
+		response: dataStore.addViewer(articleId, viewerId)
+	}
+	console.log(response);
+	res.send(response);
 };
 
 var removeViewer = function(req, res) {
 	var articleId = req.body.articleId;
 	var viewerId = req.body.viewerId;
-	res.send(dataStore.removeViewer(articleId, viewerId));
+	var response = {
+		response: dataStore.removeViewer(articleId, viewerId)
+	}
+	res.send(response);
 };
 
 module.exports = {

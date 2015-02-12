@@ -17,11 +17,13 @@ ViewerDataStore.prototype.addViewer = function(articleId, viewerId) {
   	var listOfViewers = new Array();
   	listOfViewers[JSON.stringify(viewerId)] = viewer;
   	this.dictionary[JSON.stringify(articleId)] = listOfViewers;
+    console.log('Good');
   	return 'Good';
   } else {
   	console.log("Adding a viewer to existing array");
   	var listOfViewers = this.dictionary[JSON.stringify(articleId)];
   	listOfViewers[JSON.stringify(viewerId)] = viewer;
+    console.log('Good');
   	return 'Good';
   }
 }
@@ -45,8 +47,10 @@ ViewerDataStore.prototype.removeViewer = function(articleId, viewerId) {
 
 ViewerDataStore.prototype.cleanUp = function() {
 	var oldestAllowedTs = new Date().getTime() - 300000;
+  console.log('Running cleanup');
 	flatMap(this.dictionary, function(array) {
 		flatMap(array, function(viewer, i) {
+      console.log()
 			if (viewer.time < oldestAllowedTs) {
 				array.splice(i,1);
 				console.log("The purge - anarchy")
